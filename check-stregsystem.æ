@@ -1,0 +1,44 @@
+#!/usr/bin/env shæll
+
+fn $strip_whitespace(str)
+	return (echo(str) -> xargs()):out
+end
+
+if this:args:length() == 0 then
+	echo("expected username as argument")
+	exit(1)
+end
+
+$color_fix = "<span> </span>"
+
+$sts_out = sts("-u", this:args[1], "-b", "--strandvejen"):out
+
+if $sts_out:startswith("Noget gik galt") || $sts_out:startswith("Could not fetch") then
+	echo("$color_fix<span color='#02bfe7'>~~</span> -\$")
+	echo("---")
+	echo("fejl: ${$strip_whitespace(sts_out)})
+	exit(0)
+end
+
+$sportcola_pris = 6
+$balance = +$strip_whitespace(output)
+$sportcola_koefficient = balance / sportcola_pris
+
+if sportcola_koefficient < 1 then
+	echo("$color_fix<span color='#F00'>$balance -$!!!!</span>")
+elif sportcola_koefficient < 2 then
+	echo("$color_fix<span color='#FA0'>$balance</span> -$")
+else
+	echo("$color_fix<span color='#0F0'>$balance</span> -$")
+end
+echo("---")
+
+$korrekt_grammatik = ""
+if sportcola_koefficient == 1 then
+	$korrekt_grammatik = "sportcola"
+else
+	$korrekt_grammatik = "sportcolaer"
+end
+
+printf("Du kan købe %.2f $korrekt_grammatik\n", sportcola_koefficient)
+echo("Stregsystem hjemmeside | href='https://stregsystem.fklub.dk/10/sale/4063/'")
