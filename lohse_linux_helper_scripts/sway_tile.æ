@@ -1,0 +1,20 @@
+#!/bin/env shæll
+
+
+
+$width=swaymsg(t="get_tree") -> jq('.. | select(.type?) | select(.focused==true) | .rect.width')
+$height=swaymsg(t="get_tree") -> jq('.. | select(.type?) | select(.focused==true) | .rect.height')
+#echo "W: $width | H: $height"
+
+higher= $height > $width  #Boolean for the biggest (1 if height, 0 if width)
+#echo $high
+
+if $higher then  #Splits
+    swaymsg splitv #Vertivally if the focused windows height is greater than the width
+else
+    swaymsg splith  #And vice versa
+end
+
+#terminal &
+async @($this:args[1])()
+exit(0)

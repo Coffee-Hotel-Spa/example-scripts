@@ -1,0 +1,28 @@
+#!/bin/env shæll
+
+fn $neo() 
+    async foot("neofetch", [HF])
+    $lock = async swaylock(C=$cLoc)
+    $lock:wait()
+    swaymsg(kill)
+end
+
+fn $pic($picFile)
+    @cLoc:append($picFIle)
+    $lock = async swaylock(C=$cLoc)
+    $lock:wait()
+    @"./.delete.me":write(grep("$picFile", v="$cLoc")) && mv([f], "./.delete.me", $cLoc)
+end
+
+$cLoc="$DOT_DIR/swaylock/config"
+$bgDir="$HOME/Documents/Pictures/Lockscreen/"
+
+$num = ls($bgDir):out:split(' '):length()
+if [ $(shuf -n 1 -i 1-$num) = $num ]; then
+    neo
+else
+    $path="image=${find($bgDir, type='f') -> shuf(n=1)}"
+    $pic($path)
+fi
+
+

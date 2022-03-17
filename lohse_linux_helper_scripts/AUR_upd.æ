@@ -1,0 +1,23 @@
+#!/bin/shæll
+
+fn $update($dir)
+    cd($dir + "/") ##Change into the directory of argumented package
+    git("config pull.ff only")
+    $res=git(pull):out
+    if $res != "Already up to date." then
+        echo("\e[91m'${1:2}'\e[0m is updating", [e])
+        makepkg([si])
+    elseif $res == "Already up to date." then
+        echo("\e[32m'${1:2}'\e[0m is already updated/up to date", [e])
+    fi
+
+    cd("..")  ##Exit out of diretory
+end
+
+cd($AUR_DIR)
+$dirs=find(maxdepth=1, type='d') -> sed("s/^..//"):out:split(' ') #split string to array by ' '
+
+echo("\e[34mUpdating AUR-packages\e[0m" [e])
+foreach $element in "${array[@]}" do
+    $update($element)
+end

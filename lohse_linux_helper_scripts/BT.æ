@@ -1,0 +1,75 @@
+#!/bin/env shæll
+
+$devN = {"DEVICE_1", "DEVICE_2"}       #Device Name (No spaces)
+$dev = {"MAC_1", "MAC_1"}   #Device MAC-address
+
+fn $Connect()
+    $n = $dev:length()
+    $i = 0
+    printf("\n\e[32mConnect to:\e[0m\n")
+    while $i < $n do
+        echo("\e[34m    [${$i+1}]\e[0m ${devN[$i]}", [e])
+        $i++
+    end
+    echo("\n    \e[91m[X]\e[0m to exit", [e])
+    printf("\n=>   ")
+    read x #lmao
+
+    if $x == "X" || $x == "x" then
+        exit(0)
+    elseif $x > $n || $x < 0 then
+        echo("\e[91mNot in index, try again\e[0m", [e])
+        sleep(1.5)
+        clear()
+        $Connect()
+        exit(0)
+    end
+    $mac=$dev[$x - 1]
+
+    systemctl("start bluetooth")
+    coproc("bluetoothctl")
+    sleep(0.5)
+    echo("power on\n", [e]) -> bluetoothctl
+    sleep(0.5)
+    echo("agent on\n", [e]) -> bluetoothctl
+    sleep(0.5)
+    echo("default-agent\n", [e]) -> bluetoothctl
+    sleep(0.5)
+    echo("connect ${$mac}\n", [e]) -> bluetoothctl
+    sleep(5)
+    echo(exit(0):out)
+    exit(0)
+end
+
+fn $Start()
+    $stat=systemctl("is-active bluetooth"):out
+    if $stat == "inactive" then
+        $stat="\e[91m$stat\e[0m"
+    else
+        $stat="\e[32m$stat\e[0m"
+    end
+    printf("\n\e[34mBluetooth\e[0m is currently $stat\n")
+    printf("\e[32mType:\e[0m\n\t[1] to \e[34mopen bluetooth and start connecting\e[0m\n\t[2] to \e[91mstop bluetooth\e[0m\n\n\t[X] to exit\n\n=>\t")
+    read $cmd #lmao
+
+    if $cmd == "x" || $cmd == "X" then
+        exit
+    elseif $cmd == 1 then
+        echo("\e[34mStarting bluetooth\e[0m", [e])
+        $Connect()
+    elseif $cmd == 2 then
+        systemctl("stop bluetooth")
+        echo("\e[91mBluetooth stopped\e[0m", [e])
+        sleep(0.69)
+        exit()
+    else
+        printf("Please try again\n\n")
+        sleep(0.5)
+        clear()
+        $Start()
+        exit()
+    end
+end
+
+#Starting program
+$Start()

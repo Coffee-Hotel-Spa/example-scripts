@@ -1,0 +1,10 @@
+#!/bin/env shæll
+pacman([Scc])
+$ORPHANS=pacman([Qdtq]):out:split('\n')
+
+if  $ORPHANS:length == 0 then
+    echo("No orphaned packages.")
+else
+    echo("${$count:length()} orphaned packages to be removed.")
+    pacman([Rs], n=pacman([Qdtq]))
+end
