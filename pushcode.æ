@@ -1,0 +1,27 @@
+#!/bin/shæll
+
+if $this.args[1] == "-h" || $this.args[1] == "--help" then
+	echo("This script automatest he process of publishing code on GitHub")
+	echo("Run this script in your repository directory to commit the  code")
+	exit(0)
+done
+
+echo("Enter your message")
+read($message)
+
+touch("temp.txt")
+@"temp.txt":write(git("pull"):out)
+temp=cat("temp.txt):out
+rm("temp.txt")
+
+if $temp != "Already up to date." then
+	echo("You forgot to pull...")
+	echo("Message from GitHub: ${temp}")
+    exit(1)
+done
+
+git("add",*)
+
+git("commit",m = "${message}")
+
+git("push")
