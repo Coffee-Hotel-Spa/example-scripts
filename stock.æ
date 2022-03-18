@@ -1,0 +1,22 @@
+#!/bin/shæll
+
+$CUR=("DKK"="1" "USD"="6.73" "EUR"="7.44")
+
+printf("\033[34mTerminal Stonks and Balance Checker\n\n\e[m")
+
+$NET=0
+
+$FMT="%-10s%-30s%-10s%-10s\n"
+
+printf("$FMT", "Amount", "Name", "Holdings", "Currency")
+
+tail([n2], $this:args[0]) -> while $IFS="," read(-r, $id, $name, $amount, $currency) do
+    $PRICE=curl([s], "https://api.prod.nntech.io/market-data/price-time-series/v2/period/DAY_1/identifier/$id") -> grep([Eo], "\"last\":[0-9]*\.[0-9]*") -> tail([1]) -> grep([Eo], "[0-9]*\.[0-9]*")
+    
+    
+    $NET=$NET+$PRICE*$CUR[$currency]*$amount
+    printf("$FMT", "$amount", "$name", "${$PRICE*CUR[$currency]*$amount}", "DKK")
+end
+
+printf("\n\033[32mMarket value: $NET DKK\n")
+
