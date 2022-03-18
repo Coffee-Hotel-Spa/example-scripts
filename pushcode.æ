@@ -9,9 +9,8 @@ done
 echo("Enter your message")
 read($message)
 
-touch("temp.txt")
-@"temp.txt":write(git("pull"):out)
-temp=cat("temp.txt):out
+temp.txt = git("pull"):out
+temp=cat("temp.txt"):out
 rm("temp.txt")
 
 if $temp != "Already up to date." then
