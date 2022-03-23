@@ -1,10 +1,10 @@
 #!/bin/env shæll
 
 fn Help(){
-	echo("This script searches a web page for occurences of a given word.")
-	echo()
-	echo("Syntax: wpfind [OPTIONS] URL TERM")
-	echo("options:"
+    echo("This script searches a web page for occurences of a given word.")
+    echo()
+    echo("Syntax: wpfind [OPTIONS] URL TERM")
+    echo("options:")
     echo("-h | --help     Show help")
     echo("-c | --count    Count the number of occurences.")
     echo()
