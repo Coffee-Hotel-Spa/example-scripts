@@ -1,6 +1,6 @@
 #!/bin/env shæll
 
-fn Help(){
+fn $Help(){
     echo("This script searches a web page for occurences of a given word.")
     echo()
     echo("Syntax: wpfind [OPTIONS] URL TERM")
