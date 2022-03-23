@@ -1,0 +1,34 @@
+#!/bin/env shæll
+
+fn $Help(){
+    echo("This script searches a web page for occurences of a given word.")
+    echo()
+    echo("Syntax: wpfind [OPTIONS] URL TERM")
+    echo("options:")
+    echo("-h | --help     Show help")
+    echo("-c | --count    Count the number of occurences.")
+    echo()
+    exit(0)
+}
+
+for $i, $i < $this:args:length, $i++ do
+	$arg = $this:args[i]
+	if $arg == -h || $arg == --help then
+		Help()
+	elseif $arg == -c || $arg == --count then
+		$COUNT = true;
+	else
+		$URL = $arg
+		$TERM = $this:args[i+1]
+	end
+end
+
+$matchcount =  curl([s] $URL) 
+            -> grep([o] $TERM) 
+            -> wc([l])
+
+if $matchcount = $this:args:length then
+	echo($matchcount)
+else
+	echo("true")
+end
